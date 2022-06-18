@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor;
@@ -40,23 +39,21 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
 /**
- * Utility class that allows for convenient registration of common
- * {@link org.springframework.beans.factory.config.BeanPostProcessor} and
- * {@link org.springframework.beans.factory.config.BeanFactoryPostProcessor}
- * definitions for annotation-based configuration. Also registers a common
- * {@link org.springframework.beans.factory.support.AutowireCandidateResolver}.
+ * Utility class that allows for convenient registration of common {@link org.springframework.beans.factory.config.BeanPostProcessor}
+ * and {@link org.springframework.beans.factory.config.BeanFactoryPostProcessor} definitions for annotation-based
+ * configuration. Also registers a common {@link org.springframework.beans.factory.support.AutowireCandidateResolver}.
  *
  * @author Mark Fisher
  * @author Juergen Hoeller
  * @author Chris Beams
  * @author Phillip Webb
  * @author Stephane Nicoll
- * @since 2.5
  * @see ContextAnnotationAutowireCandidateResolver
  * @see ConfigurationClassPostProcessor
  * @see CommonAnnotationBeanPostProcessor
  * @see org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
  * @see org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor
+ * @since 2.5
  */
 public abstract class AnnotationConfigUtils {
 
@@ -67,11 +64,11 @@ public abstract class AnnotationConfigUtils {
 			"org.springframework.context.annotation.internalConfigurationAnnotationProcessor";
 
 	/**
-	 * The bean name of the internally managed BeanNameGenerator for use when processing
-	 * {@link Configuration} classes. Set by {@link AnnotationConfigApplicationContext}
-	 * and {@code AnnotationConfigWebApplicationContext} during bootstrap in order to make
-	 * any custom name generation strategy available to the underlying
-	 * {@link ConfigurationClassPostProcessor}.
+	 * The bean name of the internally managed BeanNameGenerator for use when processing {@link Configuration} classes.
+	 * Set by {@link AnnotationConfigApplicationContext} and {@code AnnotationConfigWebApplicationContext} during
+	 * bootstrap in order to make any custom name generation strategy available to the underlying {@link
+	 * ConfigurationClassPostProcessor}.
+	 *
 	 * @since 3.1.1
 	 */
 	public static final String CONFIGURATION_BEAN_NAME_GENERATOR =
@@ -132,6 +129,7 @@ public abstract class AnnotationConfigUtils {
 
 	/**
 	 * Register all relevant annotation post processors in the given registry.
+	 *
 	 * @param registry the registry to operate on
 	 */
 	public static void registerAnnotationConfigProcessors(BeanDefinitionRegistry registry) {
@@ -140,11 +138,12 @@ public abstract class AnnotationConfigUtils {
 
 	/**
 	 * Register all relevant annotation post processors in the given registry.
+	 *
 	 * @param registry the registry to operate on
-	 * @param source the configuration source element (already extracted)
-	 * that this registration was triggered from. May be {@code null}.
-	 * @return a Set of BeanDefinitionHolders, containing all bean definitions
-	 * that have actually been registered by this call
+	 * @param source   the configuration source element (already extracted) that this registration was triggered from.
+	 *                 May be {@code null}.
+	 * @return a Set of BeanDefinitionHolders, containing all bean definitions that have actually been registered by
+	 * this call
 	 */
 	public static Set<BeanDefinitionHolder> registerAnnotationConfigProcessors(
 			BeanDefinitionRegistry registry, @Nullable Object source) {
@@ -185,12 +184,13 @@ public abstract class AnnotationConfigUtils {
 		if (jsr250Present && !registry.containsBeanDefinition(JSR250_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			try {
 				RootBeanDefinition def = new RootBeanDefinition(InitDestroyAnnotationBeanPostProcessor.class);
-				def.getPropertyValues().add("initAnnotationType", classLoader.loadClass("javax.annotation.PostConstruct"));
-				def.getPropertyValues().add("destroyAnnotationType", classLoader.loadClass("javax.annotation.PreDestroy"));
+				def.getPropertyValues()
+						.add("initAnnotationType", classLoader.loadClass("javax.annotation.PostConstruct"));
+				def.getPropertyValues()
+						.add("destroyAnnotationType", classLoader.loadClass("javax.annotation.PreDestroy"));
 				def.setSource(source);
 				beanDefs.add(registerPostProcessor(registry, def, JSR250_ANNOTATION_PROCESSOR_BEAN_NAME));
-			}
-			catch (ClassNotFoundException ex) {
+			} catch (ClassNotFoundException ex) {
 				// Failed to load javax variants of the annotation types -> ignore.
 			}
 		}
@@ -201,8 +201,7 @@ public abstract class AnnotationConfigUtils {
 			try {
 				def.setBeanClass(ClassUtils.forName(PERSISTENCE_ANNOTATION_PROCESSOR_CLASS_NAME,
 						AnnotationConfigUtils.class.getClassLoader()));
-			}
-			catch (ClassNotFoundException ex) {
+			} catch (ClassNotFoundException ex) {
 				throw new IllegalStateException(
 						"Cannot load optional framework class: " + PERSISTENCE_ANNOTATION_PROCESSOR_CLASS_NAME, ex);
 			}
@@ -237,11 +236,9 @@ public abstract class AnnotationConfigUtils {
 	private static DefaultListableBeanFactory unwrapDefaultListableBeanFactory(BeanDefinitionRegistry registry) {
 		if (registry instanceof DefaultListableBeanFactory) {
 			return (DefaultListableBeanFactory) registry;
-		}
-		else if (registry instanceof GenericApplicationContext) {
+		} else if (registry instanceof GenericApplicationContext) {
 			return ((GenericApplicationContext) registry).getDefaultListableBeanFactory();
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
@@ -254,8 +251,7 @@ public abstract class AnnotationConfigUtils {
 		AnnotationAttributes lazy = attributesFor(metadata, Lazy.class);
 		if (lazy != null) {
 			abd.setLazyInit(lazy.getBoolean("value"));
-		}
-		else if (abd.getMetadata() != metadata) {
+		} else if (abd.getMetadata() != metadata) {
 			lazy = attributesFor(abd.getMetadata(), Lazy.class);
 			if (lazy != null) {
 				abd.setLazyInit(lazy.getBoolean("value"));
@@ -284,6 +280,7 @@ public abstract class AnnotationConfigUtils {
 			ScopeMetadata metadata, BeanDefinitionHolder definition, BeanDefinitionRegistry registry) {
 
 		ScopedProxyMode scopedProxyMode = metadata.getScopedProxyMode();
+		//ScopedProxyMode是NO或者DEFAULT返回当前bean，不是的话，说明需要代理
 		if (scopedProxyMode.equals(ScopedProxyMode.NO)) {
 			return definition;
 		}
