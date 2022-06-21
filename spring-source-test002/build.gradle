@@ -1,0 +1,28 @@
+plugins {
+    id 'java-library'
+}
+
+group 'org.springframework'
+version '6.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
+    maven { url "https://maven.aliyun.com/nexus/content/repositories/jcenter" }
+}
+
+dependencies {
+    implementation 'junit:junit:4.13.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    api(project(":spring-context"))
+    api(project(":spring-beans"))
+    api(project(":spring-core"))
+    api(project(":spring-aop"))
+    api(project(":spring-test"))
+    api(project(":spring-web"))
+}
+
+test {
+    useJUnitPlatform()
+}

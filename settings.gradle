@@ -56,5 +56,5 @@ settings.gradle.projectsLoaded {
         }
     }
 }
-include 'spring-source-test01'
+include 'spring-source-test002'
 

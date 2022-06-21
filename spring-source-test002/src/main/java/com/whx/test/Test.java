@@ -12,6 +12,7 @@ public class Test {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
 		User user = (User) context.getBean("user");
 		ProxyModel proxyModel = (ProxyModel) context.getBean("proxyModel");
+		String name = proxyModel.getName();
 		System.out.println(user.toString());
 
 	}
