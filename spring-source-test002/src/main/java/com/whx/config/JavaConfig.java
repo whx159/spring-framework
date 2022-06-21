@@ -2,9 +2,7 @@ package com.whx.config;
 
 import com.whx.model.ProxyModel;
 import com.whx.model.User;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 
 @ComponentScan(basePackages = {"com.whx.model"})
 @Configuration
@@ -15,6 +13,7 @@ public class JavaConfig {
 	}
 //
 	@Bean
+	@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 	public ProxyModel proxyModel() {
 		return new ProxyModel();
 	}
