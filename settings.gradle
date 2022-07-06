@@ -57,4 +57,5 @@ settings.gradle.projectsLoaded {
     }
 }
 include 'spring-source-test002'
+include 'spring-source-testautowired'
 
