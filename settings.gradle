@@ -1,14 +1,16 @@
 pluginManagement {
 	repositories {
-		mavenCentral()
+//		mavenCentral()
+//		gradlePluginPortal()
+//		maven { url "https://repo.spring.io/release" }
 		gradlePluginPortal()
-		maven { url "https://repo.spring.io/release" }
+		maven { url "https://maven.aliyun.com/repository/spring-plugin" }
 	}
 }
 
 plugins {
 	id "com.gradle.enterprise" version "3.9"
-	id "io.spring.ge.conventions" version "0.0.9"
+//	id "io.spring.ge.conventions" version "0.0.9"
 }
 
 include "spring-aop"
